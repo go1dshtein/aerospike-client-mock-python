@@ -215,26 +215,26 @@ class TestAerospikeClientTtlMock(unittest.TestCase):
         self.assertEqual(
             [
                 (
-                    ('a', 'b', 1),
+                    ('a', 'b', 1, bytearray(b'u\x98t\x11La\x84\x9d\x94\xe3\xcdcSbn\xd7')),
                     {'gen': 1, 'ttl': self.get_time(default_ttl)},
                     {'a': 1}
                 ),
                 (
-                    ('a', 'b', 2),
+                    ('a', 'b', 2, bytearray(b'\xe7HY\x1f\x1f\xb8z\x8f\xf3\x0c\xf3\x04\xcc9\x14\xdc')),
                     {'gen': 1, 'ttl': self.get_time(default_ttl)},
                     {'a': 2}
                 ), (
-                ('a', 'b', 3),
+                ('a', 'b', 3, bytearray(b'\xeb\x1a\x99(V\xd49\x01\xeeQ[\x92\x06-O\x08')),
                 {'gen': 1, 'ttl': self.get_time(default_ttl)},
                 {'a': 3}
             ),
                 (
-                    ('a', 'b', 4),
+                    ('a', 'b', 4, bytearray(b'\xf3G\x1b\xba\xe2\xec\x11S\xc3\xc2\xab\x15\xb4\x1b\x96q')),
                     {'gen': 1, 'ttl': self.get_time(default_ttl)},
                     {'a': 4}
                 ),
                 (
-                    ('a', 'b', 5),
+                    ('a', 'b', 5, bytearray(b'd\t}\xc6`\xee\xe2\xf0)\x1f7\x9c\xfa\x8d\xa6\xd6')),
                     None,
                     None
                 ),

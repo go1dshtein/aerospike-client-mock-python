@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 #  aerospike mockserver
-
+import hashlib
 
 from .AerospikeData import AerospikeData
 from .AerospikeQueryMock import AerospikeQueryMock
@@ -113,7 +113,10 @@ class AerospikeClientMock(object):
     def get_many(self, keys, policy=None):
         result = []
         for key in keys:
-            result.append(self.get(key))
+            _, meta, data = self.get(key)
+            digest = bytearray(hashlib.md5('#'.join([str(x) for x in key])).digest())
+            key = tuple(list(key) + [digest])
+            result.append((key, meta, data))
         return result
 
     def exists_many(self, keys, policy=None):
