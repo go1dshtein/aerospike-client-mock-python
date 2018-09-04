@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 #  aerospike mockserver
+import copy
 import hashlib
 
 from .AerospikeData import AerospikeData
@@ -25,8 +26,8 @@ class AerospikeClientMock(object):
 
     def get(self, key, policy=None):
         exists = self.exists(key)[0]
-        return key, self.storage[key].meta if exists else None, \
-               self.storage[key] if exists else None
+        data = copy.deepcopy(self.storage[key]) if exists else None
+        return key, data.meta if exists else None, data if exists else None
 
     def select(self, key, bins, policy=None):
         result = self.get(key)
@@ -114,7 +115,8 @@ class AerospikeClientMock(object):
         result = []
         for key in keys:
             _, meta, data = self.get(key)
-            digest = bytearray(hashlib.md5('#'.join([str(x) for x in key])).digest())
+            joined = b'#'.join([str(x).encode('utf-8') for x in key])
+            digest = bytearray(hashlib.md5(joined).digest())
             key = tuple(list(key) + [digest])
             result.append((key, meta, data))
         return result
